@@ -42,6 +42,7 @@ const nombreTournois = document.querySelector("#quantity");
 const locationVille = document.querySelector("#location1");
 const termeEtConditons = document.querySelector("#checkbox1");
 const boutonInscription = document.querySelector("#submit");
+const submitValidation = document.querySelector("form");
 
 if (nomInput == null) throw new Error("Élément nomInput pas trouvé");
 if (choisirOption == null) throw new Error("Élément choisirOption pas trouvé");
@@ -50,6 +51,7 @@ if (nombreTournois == null) throw new Error("Élément nombreTournois pas trouve
 if (termeEtConditons == null) throw new Error("Élément termeEtConditons pas trouvé");
 if (boutonInscription == null) throw new Error("Élément boutonInscription pas trouvé");
 if (locationVille == null) throw new Error("Élément locationVille pas trouvé");
+if (submitValidation == null) throw new Error("Élément form pas trouvé");
 
 nomInput.addEventListener("invalid", (e) => messageErreur (e, "Veuillez entrer 2 caractères ou plus pour le champ du nom."));
 prenomInput.addEventListener("invalid", (e) => messageErreur (e, "Veuillez entrer 2 caractères ou plus pour le champ du prenom."));
@@ -59,8 +61,10 @@ dateNaissanceInput.addEventListener("invalid", (e) => messageErreur (e, "Vous de
 nombreTournois.addEventListener("invalid", (e) => messageErreur (e, "Vous devez entrer un nombre."));
 locationVille.addEventListener("invalid", (e) => messageErreur (e, "Vous devez choisir une option."));
 termeEtConditons.addEventListener("invalid", (e) => messageErreur (e, "Vous devez vérifier que vous acceptez les termes et conditions."));
-
 boutonInscription.addEventListener("click", () => removeErreurMessages());
+submitValidation.addEventListener("submit", () => formSubmitValidation());
+  
+  
 
 
  function messageErreur(event, message) {
@@ -78,5 +82,12 @@ function removeErreurMessages() {
     erreurMessage.removeAttribute("data-error-visible")
   });
 }
+function formSubmitValidation() {
+  if (submitValidation.checkValidity()) {
+    closeModalBtn();
+    alert("Merci ! Votre réservation a été reçue.");
+} 
+}
+
 
 
