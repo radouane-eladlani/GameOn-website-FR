@@ -190,6 +190,7 @@ main {
 .modal-body {
   padding: 15px 8%;
   margin: 15px auto;
+  height: 45rem;
 }
 
 label {
@@ -483,6 +484,7 @@ footer {
   padding-right: 2vw;
   margin: 0 20px;
 }
+
 @media screen and (max-width: 800px) {
   .hero-section {
     display: block;
