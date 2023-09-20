@@ -47,18 +47,18 @@ const submitValidation = document.querySelector("form[name='reserve']");
 /* Gestion des erreurs du formulaire si le champ et inferieur a 2 caractere en retourne le messageErreur */
 nomInput.addEventListener("invalid", function (e) {
   e.preventDefault();
-  const lettersOnlyPattern = /^[A-Za-z]+$/; // Cette regex autorise uniquement les lettres alphabétiques
-  if (nomInput.value.length < 2 || !lettersOnlyPattern.test(nomInput.value)) {
+  const pattern = /^[A-Za-z]+$/; // Cette regex autorise uniquement les lettres alphabétiques
+  if (nomInput.value.length < 2 || !pattern.test(nomInput.value)) {
     return messageErreur(e, "Veuillez entrer 2 caractères ou plus en lettres pour le champ du nom.");
   }
 });
 
 prenomInput.addEventListener("invalid", function (e) {
   e.preventDefault(); 
-  const lettersOnlyPattern = /^[A-Za-z]+$/;
-  if (prenomInput.value.length < 2  || !lettersOnlyPattern.test(prenomInput.value))
+  const pattern = /^[A-Za-z]+$/;
+  if (prenomInput.value.length < 2  || !pattern.test(prenomInput.value))
   return messageErreur(e,"Veuillez entrer 2 caractères ou plus en lettres pour le champ du prénom.");
-});
+}); 
 
 emailInput.addEventListener("invalid", function (e) {
   e.preventDefault(); 
