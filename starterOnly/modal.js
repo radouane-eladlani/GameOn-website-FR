@@ -44,46 +44,53 @@ const termeEtConditons = document.querySelector("#checkbox1");
 const boutonInscription = document.querySelector("#submit");
 const submitValidation = document.querySelector("form[name='reserve']");
 
-
+/* Gestion des erreurs du formulaire si le champ et inferieur a 2 caractere en retourne le messageErreur */
 nomInput.addEventListener("invalid", function (e) {
   e.preventDefault();
-  messageErreur(e,"Veuillez entrer 2 caractères ou plus pour le champ du nom.");
+  const lettersOnlyPattern = /^[A-Za-z]+$/; // Cette regex autorise uniquement les lettres alphabétiques
+  if (nomInput.value.length < 2 || !lettersOnlyPattern.test(nomInput.value)) {
+    return messageErreur(e, "Veuillez entrer 2 caractères ou plus en lettres pour le champ du nom.");
+  }
 });
 
 prenomInput.addEventListener("invalid", function (e) {
   e.preventDefault(); 
-  messageErreur(e,"Veuillez entrer 2 caractères ou plus pour le champ du prénom.");
+  const lettersOnlyPattern = /^[A-Za-z]+$/;
+  if (prenomInput.value.length < 2  || !lettersOnlyPattern.test(prenomInput.value))
+  return messageErreur(e,"Veuillez entrer 2 caractères ou plus en lettres pour le champ du prénom.");
 });
 
 emailInput.addEventListener("invalid", function (e) {
   e.preventDefault(); 
-  messageErreur(e,"Veuillez entrer une adresse email valide.");
+
+  return messageErreur(e,"Veuillez entrer une adresse email valide.");
 });
 
 choisirOption.addEventListener("invalid", function (e) {
   e.preventDefault(); 
-  messageErreur(e,"Vous devez choisir une option.");
+  return messageErreur(e,"Vous devez choisir une option.");
 })
 
 dateNaissanceInput.addEventListener("invalid", function (e) {
   e.preventDefault(); 
-  messageErreur(e,"Vous devez entrer votre date de naissance.");
+  return messageErreur(e,"Vous devez entrer votre date de naissance.");
 })
 
 nombreTournois.addEventListener("invalid", function (e) {
   e.preventDefault(); 
-  messageErreur(e,"Vous devez entrer un nombre.");
+  return messageErreur(e,"Vous devez entrer un nombre.");
 })
 
 locationVille.addEventListener("invalid", function (e) {
   e.preventDefault(); 
-  messageErreur(e,"Vous devez choisir une option.");
+  return messageErreur(e,"Vous devez choisir une option.");
 })
 
 termeEtConditons.addEventListener("invalid", function (e) {
   e.preventDefault(); 
-  messageErreur(e,"Vous devez vérifier que vous acceptez les termes et conditions.");
+  return messageErreur(e,"Vous devez vérifier que vous acceptez les termes et conditions.");
 })
+
 
 /* Effacer les messages d'erreur lors de la soumission du formulaire */
 boutonInscription.addEventListener("click", () => removeErreurMessages());
@@ -101,6 +108,7 @@ function messageErreur(event, message) {
   parent.setAttribute("data-error" , message);
   /* On affiche le message d'erreur visible*/
   parent.setAttribute("data-error-visible", "true", message);
+
   
 }
 
@@ -147,27 +155,11 @@ function formSubmitValidation() {
 
 }
 
-/* Validation du formulaire */
-function validate() {
-  const nomInput = document.querySelector("#last");
-  const prenomInput = document.querySelector("#first");
-  const emailInput = document.querySelector("#email");
-  const emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-/* si le nom est inferieur a 2 caractere en retourne false*/
-  if (nomInput.value.length < 2) {
-    return false;
-  }
-/* si le prenom est inferieur a 2 caractere en retourne false*/
-  if (prenomInput.value.length < 2) {
-   return false;
-  }
-/* si l'email n'est pas conforme retourne false*/
-  if (!emailPattern.test(emailInput.value)) {
-    return false;
-  }
-  
-  return true;
-}
+
+
+
+    
+    
 
 
 
