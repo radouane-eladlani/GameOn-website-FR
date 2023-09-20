@@ -15,9 +15,6 @@ const formData = document.querySelectorAll(".formData");
 const closeModal = document.querySelector(".close");
 
 
-// Si closeModal et egale a null en throw une erreur//
-if (closeModal == null) throw new Error("Élément closeModal pas trouvé");
-
 // Fonction pour fermer la modale//
 function closeModalBtn() {
   if (modalbg == null) throw new Error("Élément modalbg pas trouvé");
@@ -32,10 +29,10 @@ closeModal.addEventListener("click", closeModalBtn);
 
 // Fonction pour ouvrir la modale //
 function launchModal() {
-  if (modalbg == null) throw new Error("background pas trouvé");
   modalbg.classList.add("active");
 }
 
+/* Recupérer les ids et les classes du formulaire*/
 const nomInput = document.querySelector("#last");
 const prenomInput= document.querySelector("#first");
 const emailInput = document.querySelector("#email");
@@ -48,48 +45,79 @@ const boutonInscription = document.querySelector("#submit");
 const submitValidation = document.querySelector("form[name='reserve']");
 
 
+nomInput.addEventListener("invalid", function (e) {
+  e.preventDefault();
+  messageErreur(e,"Veuillez entrer 2 caractères ou plus pour le champ du nom.");
+});
 
+prenomInput.addEventListener("invalid", function (e) {
+  e.preventDefault(); 
+  messageErreur(e,"Veuillez entrer 2 caractères ou plus pour le champ du prénom.");
+});
 
-if (nomInput == null) throw new Error("Élément nomInput pas trouvé");
-if (choisirOption == null) throw new Error("Élément choisirOption pas trouvé");
-if (dateNaissanceInput == null) throw new Error("Élément dateNaissanceInput pas trouvé");
-if (nombreTournois == null) throw new Error("Élément nombreTournois pas trouvé");
-if (termeEtConditons == null) throw new Error("Élément termeEtConditons pas trouvé");
-if (boutonInscription == null) throw new Error("Élément boutonInscription pas trouvé");
-if (locationVille == null) throw new Error("Élément locationVille pas trouvé");
-if (submitValidation == null) throw new Error("Élément form pas trouvé");
+emailInput.addEventListener("invalid", function (e) {
+  e.preventDefault(); 
+  messageErreur(e,"Veuillez entrer une adresse email valide.");
+});
 
+choisirOption.addEventListener("invalid", function (e) {
+  e.preventDefault(); 
+  messageErreur(e,"Vous devez choisir une option.");
+})
 
-nomInput.addEventListener("invalid", (e) => messageErreur (e, "Veuillez entrer 2 caractères ou plus pour le champ du nom."));
-prenomInput.addEventListener("invalid", (e) => messageErreur (e, "Veuillez entrer 2 caractères ou plus pour le champ du prenom."));
-emailInput.addEventListener("invalid", (e) => messageErreur (e, "Veuillez entrer une adresse email valide."));
-choisirOption.addEventListener("invalid", (e) => messageErreur (e, "Vous devez choisir une option."));
-dateNaissanceInput.addEventListener("invalid", (e) => messageErreur (e, "Vous devez entrer votre date de naissance."));
-nombreTournois.addEventListener("invalid", (e) => messageErreur (e, "Vous devez entrer un nombre."));
-locationVille.addEventListener("invalid", (e) => messageErreur (e, "Vous devez choisir une option."));
-termeEtConditons.addEventListener("invalid", (e) => messageErreur (e, "Vous devez vérifier que vous acceptez les termes et conditions."));
+dateNaissanceInput.addEventListener("invalid", function (e) {
+  e.preventDefault(); 
+  messageErreur(e,"Vous devez entrer votre date de naissance.");
+})
+
+nombreTournois.addEventListener("invalid", function (e) {
+  e.preventDefault(); 
+  messageErreur(e,"Vous devez entrer un nombre.");
+})
+
+locationVille.addEventListener("invalid", function (e) {
+  e.preventDefault(); 
+  messageErreur(e,"Vous devez choisir une option.");
+})
+
+termeEtConditons.addEventListener("invalid", function (e) {
+  e.preventDefault(); 
+  messageErreur(e,"Vous devez vérifier que vous acceptez les termes et conditions.");
+})
+
+/* Effacer les messages d'erreur lors de la soumission du formulaire */
 boutonInscription.addEventListener("click", () => removeErreurMessages());
+/*Au click sur le bouton de soumission du formulaire 
+on appel la fonction formSubmitValidation 
+ensuite en rajoute e.preventDefault pour empecher le rechargement de la page*/
 submitValidation.addEventListener("submit", (e) => formSubmitValidation(e.preventDefault()));
-
+/* Afficher les messages d'erreur en bas de input en cliquant 
+sur le bouton c'est parti */
 function messageErreur(event, message) {
-  
+  /* On récupère le parent des inputs pour afficher le message d'erreur*/
   const target = event.target;
   const parent = target.parentElement;
-
-
-  parent.setAttribute("data-error", message);
-  parent.setAttribute("data-error-visible", "true");
+/* On affiche le message d'erreur en bas de l'input*/
+  parent.setAttribute("data-error" , message);
+  /* On affiche le message d'erreur visible*/
+  parent.setAttribute("data-error-visible", "true", message);
+  
 }
 
+
+/* Effacer les messages d'erreur quand on clique sur le bouton c'est parti*/
 function removeErreurMessages() {
+  /* On recupere tous les messages d'erreur*/
   const erreurMessages = document.querySelectorAll("[data-error]");
+  /* On efface les messages d'erreur*/
   erreurMessages.forEach((erreurMessage) => {
+    /* On efface le message d'erreur*/
     erreurMessage.removeAttribute("data-error");
     erreurMessage.removeAttribute("data-error-visible")
   });
 }
+/* Fonction pour soumettre le formulaire */
 function formSubmitValidation() {
-  removeErreurMessages();
   const confirmationForm = document.getElementById("confirmation-message");
     
   confirmationForm.style.display = "flex";
@@ -104,43 +132,47 @@ function formSubmitValidation() {
 
   submitValidation.style.display = "flex"
   submitValidation.style.flexDirection = "column-reverse";
+  submitValidation.style.justifyContent = "space-around";
   submitValidation.style.height = "40rem";
+
 
   const boutonSubmit = document.getElementById("submit");
   boutonSubmit.value = "fermé";
 
   boutonSubmit.addEventListener("click", function () {
     closeModalBtn();
+    /*location.reload pour rafraichir la page*/
     location.reload(); 
   });
 
-  submitValidation.reset();
 }
 
-
+/* Validation du formulaire */
 function validate() {
   const nomInput = document.querySelector("#last");
   const prenomInput = document.querySelector("#first");
   const emailInput = document.querySelector("#email");
-
+  const emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+/* si le nom est inferieur a 2 caractere en retourne false*/
   if (nomInput.value.length < 2) {
-    alert("Veuillez entrer au moins 2 caractères pour le champ du nom.");
     return false;
   }
-
+/* si le prenom est inferieur a 2 caractere en retourne false*/
   if (prenomInput.value.length < 2) {
-    alert("Veuillez entrer au moins 2 caractères pour le champ du prénom.");
-    return false;
+   return false;
   }
-
-  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+/* si l'email n'est pas conforme retourne false*/
   if (!emailPattern.test(emailInput.value)) {
-    alert("Veuillez entrer une adresse e-mail valide.");
     return false;
   }
-
+  
   return true;
 }
+
+
+
+
+
 
 
 
