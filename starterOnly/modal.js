@@ -19,6 +19,7 @@ const closeModal = document.querySelector(".close");
 function closeModalBtn() {
   if (modalbg == null) throw new Error("Élément modalbg pas trouvé");
   modalbg.classList.remove("active");
+  location.reload();
 
 }
 
@@ -44,25 +45,23 @@ const termeEtConditons = document.querySelector("#checkbox1");
 const boutonInscription = document.querySelector("#submit");
 const submitValidation = document.querySelector("form[name='reserve']");
 
-/* Gestion des erreurs du formulaire si le champ et inferieur a 2 caractere en retourne le messageErreur */
-nomInput.addEventListener("invalid", function (e) {
-  e.preventDefault();
-  const pattern = /^[A-Za-z]+$/; // Cette regex autorise uniquement les lettres alphabétiques
-  if (nomInput.value.length < 2 || !pattern.test(nomInput.value)) {
-    return messageErreur(e, "Veuillez entrer 2 caractères ou plus en lettres pour le champ du nom.");
-  }
-});
 
+
+/* Gestion des erreurs du formulaire si le champ et inferieur a 2 caractere en retourne le messageErreur */
 prenomInput.addEventListener("invalid", function (e) {
-  e.preventDefault(); 
-  const pattern = /^[A-Za-z]+$/;
-  if (prenomInput.value.length < 2  || !pattern.test(prenomInput.value))
+  e.preventDefault();
   return messageErreur(e,"Veuillez entrer 2 caractères ou plus en lettres pour le champ du prénom.");
 }); 
+nomInput.addEventListener("invalid", function (e) {
+  e.preventDefault();
+  /* On verifie si le champ du nom est inferieur a 2 caractere et que des lettres*/
+    return messageErreur(e, "Veuillez entrer 2 caractères ou plus en lettres pour le champ du nom.");
+});
+
+
 
 emailInput.addEventListener("invalid", function (e) {
   e.preventDefault(); 
-
   return messageErreur(e,"Veuillez entrer une adresse email valide.");
 });
 
@@ -109,9 +108,7 @@ function messageErreur(event, message) {
   /* On affiche le message d'erreur visible*/
   parent.setAttribute("data-error-visible", "true", message);
 
-  
 }
-
 
 /* Effacer les messages d'erreur quand on clique sur le bouton c'est parti*/
 function removeErreurMessages() {
@@ -154,6 +151,7 @@ function formSubmitValidation() {
   });
 
 }
+
 
 
 
